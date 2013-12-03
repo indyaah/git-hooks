@@ -1,0 +1,10 @@
+#!/bin/sh
+# Step 1 : cd "$(git rev-parse --show-toplevel)" => Go to root folder of the repo 
+#
+# Step 2: for FILE in `git diff-index --name-status HEAD -- | cut -f2` => Iterate files which are modified (using git diff) and get the relative path to file.
+# 
+# Step 3: do if [ -f $FILE ]; then if [ $(cat $FILE | grep -i 'REVERTME' | wc -l) -gt 0 ]; then echo $FILE; fi fi  done; => if file exist (because delete file might be listed), 
+#    cat the file grep for the REVERTME keyword (it can be your custome word or list of words using or condition in grep) case insensitive, if line count after grep is more than 0
+#    it means you have some changes that you had made while debugging etc which you dont want to commit and probably emabarass yourself :P so echo the file path relative to repo root.
+
+cd "$(git rev-parse --show-toplevel)" && for FILE in `git diff-index --name-status HEAD -- | cut -f2` ; do if [ -f $FILE ]; then if [ $(cat $FILE | grep -i 'REVERTME' | wc -l) -gt 0 ]; then echo $FILE; fi fi  done;
