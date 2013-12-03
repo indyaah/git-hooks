@@ -7,4 +7,8 @@
 #    cat the file grep for the REVERTME keyword (it can be your custome word or list of words using or condition in grep) case insensitive, if line count after grep is more than 0
 #    it means you have some changes that you had made while debugging etc which you dont want to commit and probably emabarass yourself :P so echo the file path relative to repo root.
 
+# IMPORTANT: put this file in your path as it needs to be accessible by git pre commit hook, as well it helps you to use it seperately if you want to list files with personal changes 
+# without using git commit.
+# I usually put it under $HOME/bin
+
 cd "$(git rev-parse --show-toplevel)" && for FILE in `git diff-index --name-status HEAD -- | cut -f2` ; do if [ -f $FILE ]; then if [ $(cat $FILE | grep -i 'REVERTME' | wc -l) -gt 0 ]; then echo $FILE; fi fi  done;
