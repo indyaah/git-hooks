@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Step 1 : EDITS_WITH_PERSONAL_TAG=`edited`  => Get files with personal changes using edited script.
+#
+# Step 2 : prompt () => if there are files with personal changes prompt user if he wants to still commit, it might be the case.
+#           exec < /dev/tty   => Allows us to read input inside git, without this you can never read, try commenting and see for yourself. :P
+#           read => reads input from terminal into variable named "yn"
+#
+# Step 3 : If no files carry on,
+
+
+prompt () {
+    while true; do
+        read -p "$(tput setaf 1)$1 $(tput sgr0)" yn
+        case $yn in
+            [Yy]* ) return 0;;
+            [Nn]* ) return 1;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+}
+
+EDITS_WITH_PERSONAL_TAG=`edited`
+
+ if [ "$EDITS_WITH_PERSONAL_TAG" ]; 
+    then
+        echo
+        echo "$(tput setaf 3)Following files have REVERTME Tag$(tput sgr0)";
+        echo
+        echo "$EDITS_WITH_PERSONAL_TAG";
+        echo
+        exec < /dev/tty
+        prompt "You sure want to commit?";
+    else
+        return 0;
+ fi
+
