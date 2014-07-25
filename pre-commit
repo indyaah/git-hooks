@@ -8,7 +8,11 @@
 #
 # Step 3 : If no files carry on,
 
-
+GIT_ROOT="$(git rev-parse --show-toplevel)"
+EDITS_WITH_PERSONAL_TAG=`edited`
+cd $GIT_ROOT 
+IS_MAVEN=`find $GIT_ROOT -maxdepth 1 -name "pom.xml" | wc -l` 
+ 
 prompt () {
     while true; do
         read -p "$(tput setaf 1)$1 $(tput sgr0)" yn
@@ -20,7 +24,14 @@ prompt () {
     done
 }
 
-EDITS_WITH_PERSONAL_TAG=`edited`
+if [ $IS_MAVEN -ge 1 ]; 
+    then 
+        mvn compile;
+        return $pipestatus;
+    else
+        echo "Not a maven project";
+fi
+ 
 
  if [ "$EDITS_WITH_PERSONAL_TAG" ]; 
     then
