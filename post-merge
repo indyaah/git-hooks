@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# This hook is for copying/updating all new hooks from repo to .git folder.
+# i.e. it will rync git-hook in the root directory with .git/hooks
+
+GIT_ROOT="$(git rev-parse --show-toplevel)"
+cd $GIT_ROOT/git-hooks/
+git pull
+chmod +x $GIT_ROOT/git-hooks/ -R 
+rsync -avz $GIT_ROOT/git-hooks/ $GIT_ROOT/.git/hooks  --exclude '.git'
