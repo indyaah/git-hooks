@@ -9,8 +9,8 @@
 # Step 3 : If no files carry on,
 
 GIT_ROOT="$(git rev-parse --show-toplevel)"
-EDITS_WITH_PERSONAL_TAG=`edited`
 cd $GIT_ROOT 
+EDITS_WITH_PERSONAL_TAG=`$GIT_ROOT/.git/hooks/edited`
 IS_MAVEN=`find $GIT_ROOT -maxdepth 1 -name "pom.xml" | wc -l` 
  
 prompt () {
