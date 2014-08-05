@@ -12,7 +12,9 @@ GIT_ROOT="$(git rev-parse --show-toplevel)"
 cd $GIT_ROOT 
 EDITS_WITH_PERSONAL_TAG=`$GIT_ROOT/.git/hooks/edited`
 IS_MAVEN=`find $GIT_ROOT -maxdepth 1 -name "pom.xml" | wc -l` 
- 
+echo $ECLIPSE_HOME
+echo $JAVA_HOME
+
 prompt () {
     while true; do
         read -p "$(tput setaf 1)$1 $(tput sgr0)" yn
@@ -23,6 +25,13 @@ prompt () {
         esac
     done
 }
+
+if [ -n "$ECLIPSE_HOME" ]; 
+    then
+        exec $ECLIPSE_HOME/eclipse -nosplash -application org.eclipse.jdt.core.JavaCodeFormatter -verbose -config $GIT_ROOT/code-style/pref $GIT_ROOT/src
+    else
+        echo "ECLIPSE_HOME not set, please make sure it is."
+fi
 
 if [ $IS_MAVEN -ge 1 ]; 
     then 
