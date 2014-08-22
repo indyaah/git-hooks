@@ -28,7 +28,7 @@ prompt () {
 
 if [ -n "$ECLIPSE_HOME" ]; 
     then
-        exec $ECLIPSE_HOME/eclipse -nosplash -application org.eclipse.jdt.core.JavaCodeFormatter -verbose -config $GIT_ROOT/code-style/pref $GIT_ROOT/src
+        $ECLIPSE_HOME/eclipse -nosplash -application org.eclipse.jdt.core.JavaCodeFormatter -verbose -config $GIT_ROOT/code-style/pref $GIT_ROOT/src
     else
         echo "ECLIPSE_HOME not set, please make sure it is."
 fi
